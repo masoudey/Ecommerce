@@ -1,0 +1,240 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator graphql {
+  provider   = "graphql-schema-generator"
+  createCRUD = "true"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // relationMode = "prisma"
+}
+
+model Product {
+  id           String     @id @default(uuid())
+  name         String
+  description  String?
+  images       String[]
+  price        Float?
+  discount     Float?
+  code         Int?
+  stock        Int?
+  salesCount   Int        @default(0)
+  features     String?
+  tags         String
+  Manufacturer String?
+  isFeatured   Boolean    @default(false)
+  isArchived   Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  createdBy    Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId      String
+  reviews      Reviews[]
+  categories   Category[]
+  cartItem     CartItem?
+  orderItem    OrderItem?
+  colors       Color[]
+  sizes        Size[]     @relation("ProductSize")
+  eventId      String?     @unique
+  events       SaleEvent?  @relation("SaleProducts", fields: [eventId], references: [id])
+}
+
+model Color {
+  id           String   @id @default(uuid())
+  name         String
+  value        String
+  availability Boolean?
+  price        Float?
+  imageUrl     String?
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  products      Product[] 
+}
+
+model Size {
+  id           String   @id @default(uuid())
+  name         String
+  value        Float
+  description  String?
+  availability Boolean?
+  price        Float?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  products      Product[]  @relation("ProductSize")
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  status    String?
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  storeId         String      @unique
+  store           Store       @relation(fields: [storeId], references: [id])
+  totalAmount     Float
+  status          OrderStatus
+  orderDate       DateTime    @default(now())
+  orderItems      OrderItem[]
+  payments        Payment[]
+  shippingAddress Address?
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  amount        Float
+  currency      String
+  status        PaymentStatus // Enum: "Pending", "Success", "Failed", "Refunded", etc.
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  order         Order         @relation(fields: [orderId], references: [id])
+  orderId       String
+  paymentMethod String
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
+}
+
+model Reviews {
+  id        String   @id @default(uuid())
+  body      String
+  date      DateTime
+  rate      Int
+  userId    String
+  productId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model SaleEvent {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  category    String
+  startDate   DateTime
+  finishDate  DateTime
+  status      String?   @default("Running")
+  tags        String?
+  discount    Float
+  stock       Int
+  images      String[]
+  featured    Boolean   @default(false)
+  storeId     String    @unique
+  store       Store     @relation(fields: [storeId], references: [id])
+  products    Product[] @relation("SaleProducts")
+  totalSales  Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Store {
+  id          String      @id @default(uuid())
+  name        String
+  description String
+  logo        String
+  totalSales  Int         @default(0)
+  owner       User        @relation(fields: [ownerId], references: [id])
+  ownerId     String      @unique
+  address     Address?
+  products    Product[]
+  events      SaleEvent[]
+  order       Order?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model User {
+  id            String    @id @default(uuid())
+  username      String    @unique
+  email         String    @unique
+  password      String
+  emailVerified DateTime?
+  role          Role      @default(Customer)
+  avatarUrl     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  reviews       Reviews[]
+  cart          Cart?
+  profile       Profile?
+  address       Address[]
+  store         Store?
+}
+
+model Address {
+  id          String @id @default(uuid())
+  street      String
+  city        String
+  state       String
+  postalCode  String
+  country     String
+  phoneNumber String
+  store       Store?  @relation(fields: [storeId], references: [id])
+  storeId     String? @unique
+  user        User?   @relation(fields: [userId], references: [id])
+  userId      String? @unique
+  order       Order? @relation(fields: [orderId], references: [id])
+  orderId     String? @unique
+}
+
+model Profile {
+  id          String  @id @default(uuid())
+  firstName   String?
+  lastName    String?
+  phoneNumber String?
+  bio         String?
+  picture     String?
+  user        User    @relation(fields: [userId], references: [id])
+  userId      String  @unique
+}
+
+enum Role {
+  Customer
+  Supplier
+}

@@ -1,0 +1,24 @@
+{
+    "english": {
+        "explore": "Explore our products and services",
+        "Deals": "Today's Deals",
+        "BestSellers": "Best Sellers",
+        "About": "About",
+        "search": "Search..",
+        "profile": "Profile",
+        "settings": "Settings",
+        "logout": "Logout",
+        "login": "Login"
+    },
+    "farsi": {
+        "explore": "در محصولات ما جستجو کنید",
+        "Deals": "تخفیف ها",
+        "BestSellers": "پرفروش ترین ها",
+        "about": "درباره ما",
+        "search": "..جستجو",
+        "profile": "صفحه کاربر",
+        "settings": "تنظیمات",
+        "logout": "خروج",
+        "login": "ورود"
+    }
+}

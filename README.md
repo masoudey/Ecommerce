@@ -1,2 +1,2 @@
 # Ecommerce
-A full stack Ecommerce with ReactJs, GraphQl, Prisma, Vite
+A full stack Ecommerce with ReactJs, GraphQL, Prisma, Vite

@@ -1,12 +1,12 @@
 import StarRating from './StarRating';
-import { Reviews } from '../common.types';
+import { Review } from '../common.types';
 
-function ProductReviews({ reviews }: { reviews: Reviews[] }) {
+function ProductReviews({ reviews }: { reviews: Review[] }) {
     return (
         <div className="p-4 border-t">
             <h2 className="text-lg font-semibold mb-2">Product Reviews</h2>
             {reviews?.length > 0 ? (
-                reviews.map((review: Reviews) => (
+                reviews.map((review: Review) => (
                     <div key={review.id} className="mb-4">
                         <p className="text-gray-600 mb-1">
                             By {review?.user?.username}

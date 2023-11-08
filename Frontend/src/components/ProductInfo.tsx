@@ -5,20 +5,20 @@ import { Link } from 'react-router-dom';
 import ProductReviews from './ProductReviews';
 import ProductGrid from './ProductGrid';
 
-interface ProductDetailsInfoProps {
+interface ProductInfoProps {
     product: Product;
 }
 
-const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({ product }) => {
+const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
     const [active, setActive] = useState<number>(1);
 
     return (
-        <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded">
+        <div className="dark:bg-slate-700 bg-sky-200 px-3 800px:px-10 py-2 mt-3 rounded dark:text-slate-300 text-slate-700">
             <div className="w-full flex justify-between border-b pt-10 pb-2">
                 <div className="relative">
                     <h5
                         className={
-                            'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+                            ' text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
                         }
                         onClick={() => setActive(1)}
                     >
@@ -31,7 +31,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({ product }) => {
                 <div className="relative">
                     <h5
                         className={
-                            'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+                            ' text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
                         }
                         onClick={() => setActive(2)}
                     >
@@ -44,7 +44,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({ product }) => {
                 <div className="relative">
                     <h5
                         className={
-                            'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+                            ' text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
                         }
                         onClick={() => setActive(3)}
                     >
@@ -132,4 +132,4 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({ product }) => {
     );
 };
 
-export default ProductDetailsInfo;
+export default ProductInfo;

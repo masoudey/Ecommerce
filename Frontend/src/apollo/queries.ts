@@ -25,6 +25,7 @@ export const GET_PRODUCTS = gql`
                 createdBy {
                     name
                     id
+                    logo
                 }
                 description
                 discount
@@ -91,6 +92,7 @@ export const PRODUCT = gql`
             createdBy {
                 ownerId
                 name
+                logo
             }
             description
             images

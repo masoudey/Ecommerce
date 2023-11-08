@@ -31,7 +31,7 @@ export default function Root() {
     const navigation = useNavigation();
 
     return (
-        <div className="dark:bg-[#0f172a] bg-sky-50 h-full bg-no-repeat bg-[url(./shadow.svg)] bg-[100%]">
+        <div className="dark:bg-[#0f172a] bg-sky-50 h-full bg-no-repeat bg-[url(/shadow.svg)] bg-right-top ">
             <Navbar q={q} />
 
             <ToastContainer />

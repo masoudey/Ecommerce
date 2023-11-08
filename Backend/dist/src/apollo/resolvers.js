@@ -300,7 +300,19 @@ export const resolvers = {
             const { input } = args;
             let productInput;
             const { colors, storeId, sizes, categories, ...filteredInput } = input;
-            console.log('filteredInput', filteredInput);
+            const connectOrCreateColors = colors.map((color) => ({
+                where: { id: color.id },
+                create: color, // Create the color if it doesn't exist
+            }));
+            const connectOrCreateCategories = categories.map((category) => ({
+                where: { id: category.id },
+                create: category, // Create the color if it doesn't exist
+            }));
+            const connectOrCreateSizes = sizes.map((size) => ({
+                where: { id: size.id },
+                create: size, // Create the color if it doesn't exist
+            }));
+            console.log('filteredInput', filteredInput, 'categories', connectOrCreateCategories, 'colors', connectOrCreateColors);
             productInput = {
                 // name: input?.name,
                 // description: input?.description,
@@ -312,19 +324,19 @@ export const resolvers = {
                     },
                 },
                 colors: {
-                    create: colors,
+                    connectOrCreate: connectOrCreateColors,
                 },
                 sizes: {
                     create: sizes,
                 },
                 categories: {
-                    create: categories,
+                    connectOrCreate: connectOrCreateCategories,
                 },
             };
             const { session } = context;
             // const session = await getLoginSession(context.req);
             console.log('session:.', session);
-            console.log('productInput', productInput, 'colors', args.input.colors);
+            console.log('productInput', productInput, 'colors', colors, 'catego', categories);
             // if (!session) {
             //     // 1
             //     throw new Error('Cannot create without logging in.');

@@ -41,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ q }) => {
         <>
             <header
                 ref={containerRef}
-                className=" dark:bg-[#0f172a] bg-sky-50 bg-no-repeat bg-[url(./shadow.svg)] bg-[100%] pt-2 pb-1 shadow-sm fixed w-full top-0 z-10 border-b dark:border-slate-800 border-white "
+                className=" dark:bg-[#0f172a] bg-sky-50 bg-no-repeat bg-[url(/shadow.svg)] bg-[100%] pt-2 pb-1 shadow-sm fixed w-full top-0 z-10 border-b dark:border-slate-800 border-white "
             >
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="flex justify-between">

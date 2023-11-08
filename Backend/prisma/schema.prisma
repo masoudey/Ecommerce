@@ -27,7 +27,7 @@ model Product {
   stock        Int?
   salesCount   Int        @default(0)
   features     String?
-  tags         String
+  tags         String?
   Manufacturer String?
   isFeatured   Boolean    @default(false)
   isArchived   Boolean    @default(false)

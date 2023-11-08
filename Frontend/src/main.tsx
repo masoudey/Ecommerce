@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store.ts';
 import Signup from './routes/Signup.tsx';
 import Product from './routes/Product.tsx';
+import Store from './routes/Store.tsx';
 // import { parsedUserInfo } from './redux/slices/authSlice.ts';
 
 // const userInfo = parsedUserInfo;
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
                     {
                         path: 'products/:productId',
                         element: <Product />,
+                    },
+                    {
+                        path: 'stores/:storeId',
+                        element: <Store />,
                     },
                     //             {
                     //                 path: 'contacts/:contactId',

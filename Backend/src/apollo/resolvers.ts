@@ -417,7 +417,27 @@ export const resolvers = {
             let productInput: Prisma.ProductCreateInput;
             const { colors, storeId, sizes, categories, ...filteredInput } =
                 input;
-            console.log('filteredInput', filteredInput);
+
+            const connectOrCreateColors = colors.map((color) => ({
+                where: { id: color.id }, // Check if the color exists by name
+                create: color, // Create the color if it doesn't exist
+            }));
+            const connectOrCreateCategories = categories.map((category) => ({
+                where: { id: category.id }, // Check if the color exists by name
+                create: category, // Create the color if it doesn't exist
+            }));
+            const connectOrCreateSizes = sizes.map((size) => ({
+                where: { id: size.id }, // Check if the color exists by name
+                create: size, // Create the color if it doesn't exist
+            }));
+            console.log(
+                'filteredInput',
+                filteredInput,
+                'categories',
+                connectOrCreateCategories,
+                'colors',
+                connectOrCreateColors
+            );
 
             productInput = {
                 // name: input?.name,
@@ -430,13 +450,13 @@ export const resolvers = {
                     },
                 },
                 colors: {
-                    create: colors,
+                    connectOrCreate: connectOrCreateColors,
                 },
                 sizes: {
                     create: sizes,
                 },
                 categories: {
-                    create: categories,
+                    connectOrCreate: connectOrCreateCategories,
                 },
             };
             const { session } = context;
@@ -446,7 +466,9 @@ export const resolvers = {
                 'productInput',
                 productInput,
                 'colors',
-                args.input.colors
+                colors,
+                'catego',
+                categories
             );
 
             // if (!session) {

@@ -386,6 +386,7 @@ type Profile {
     }
 
     input ColorCreateInput {
+      id: ID
       name: String!
       value: String!
       availability: Boolean
@@ -498,6 +499,7 @@ type Profile {
     }
 
     input CategoryCreateInput {
+      id: ID
       name: String!
     }
 
